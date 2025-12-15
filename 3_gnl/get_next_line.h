@@ -9,7 +9,6 @@
 #  define BUFFER_SIZE 42
 # endif
 
-size_t	ft_strlcpy(char *dst, char *src, size_t dstsize);
 size_t	ft_strlen(char *s);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strdup(char *s1);
