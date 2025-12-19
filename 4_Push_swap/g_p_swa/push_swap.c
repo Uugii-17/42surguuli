@@ -3,8 +3,6 @@
 void    parse_input(t_stacks *s, int argc, char **argv)
 {
     int     i;
-    int     j;
-    char    **args;
     // Simple parsing (supports quoted args too, but for simplicity assume separate args)
     // Full parsing with ft_split if needed, but here direct
     s->a_size = argc - 1;
