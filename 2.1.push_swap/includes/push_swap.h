@@ -5,94 +5,105 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: uuenkhba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/13 16:49:07 by uuenkhba          #+#    #+#             */
-/*   Updated: 2026/01/13 16:50:07 by uuenkhba         ###   ########.fr       */
+/*   Created: 2026/01/15 22:38:43 by uuenkhba          #+#    #+#             */
+/*   Updated: 2026/01/15 22:39:55 by uuenkhba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
-# include <stddef.h>
-# include <stdlib.h>
 # include <unistd.h>
-# include <limits.h>
+# include <stddef.h>
 # include <stdio.h>
+# include <stdlib.h>
+# include <stdbool.h>
 
 typedef struct s_stack
 {
-	int				value;
-	int				index;
-	int				pos;
-	int				target_pos;
-	int				cost_a;
-	int				cost_b;
+	int				nbr;
 	struct s_stack	*next;
 }	t_stack;
 
-/* Initialization */
+// main parsing functions
+t_stack	*input_into_stack(int argc, char **argv);
+t_stack	*one_arg(char **argv);
 
-t_stack		*fill_stack_values(int ac, char **av);
-void		assign_index(t_stack *stack_a, int ac);
+// helper parsing functions
+int		ft_atoi2(const char *str, t_stack **my_node);
+int		ft_atoi2_onearg(const char *str, t_stack **my_node, char **strings);
 
-/* Sorting Algorithms */
+void	stack_birth(t_stack **lst, t_stack *node);
+t_stack	*node_birth(int content);
 
-int			is_sorted(t_stack *stack);
-void		tiny_sort(t_stack **stack);
-void		sort(t_stack **stack_a, t_stack **stack_b);
+char	**ft_split(char const *s, char c);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
+size_t	ft_strlen(const char *str);
 
-/* Position */
+// clean up
+void	free_str_arr(char **lst);
+void	free_stack(t_stack **stack);
+void	free_both(t_stack **stack, char **lst);
 
-int			get_lowest_index_position(t_stack **stack);
-void		get_target_position(t_stack **stack_a, t_stack **stack_b);
+// checker
+void	input_is_valid(char *argv, t_stack **a);
+void	input_is_valid_onearg(char *argv, t_stack **a);
+int		is_onlydigit(char **argv);
+int		ft_isdigit(int c);
+int		dup_search(t_stack *a);
+int		check_sort(t_stack *stack_a);
 
-/* Cost */
+// operations
+void	ft_sa(t_stack **a);
+void	ft_sb(t_stack **b);
+void	ft_ss(t_stack **a, t_stack **b);
+void	ft_pb(t_stack **a, t_stack **b);
+void	ft_pa(t_stack **a, t_stack **b);
+void	ft_ra(t_stack **a);
+void	ft_rb(t_stack **b);
+void	ft_rr(t_stack **a, t_stack **b);
+void	ft_rra(t_stack **a);
+void	ft_rrb(t_stack **b);
+void	ft_rrr(t_stack **a, t_stack **b);
 
-void		get_cost(t_stack **stack_a, t_stack **stack_b);
-void		do_cheapest_move(t_stack **stack_a, t_stack **stack_b);
+// sorting
+void	sort_algorithm(t_stack **a);
+void	sort_push_to_b(t_stack **stack_a, t_stack **stack_b);
+void	sort_push_to_a(t_stack **stack_a, t_stack **stack_b);
+void	sort_three(t_stack **stack_a);
+void	sort_ascend_a(t_stack **a);
 
-/* Calculate Move */
+// counting a cost for pushing to stack b in descending order
+int		alg_cheapest_ab(t_stack *a, t_stack *b);
+int		case_one(t_stack *a, t_stack *b, int nbr);
+int		case_two(t_stack *a, t_stack *b, int nbr);
 
-void		do_move(t_stack **a, t_stack **b, int cost_a, int cost_b);
+// applying a chosen method
+int		do_case_one(t_stack **a, t_stack **b, int nbr);
+int		do_case_two(t_stack **a, t_stack **b, int nbr);
 
-/* Operations */
+// counting a cost for pushing to stack a in ascending order
+int		alg_cheapest_ba(t_stack *a, t_stack *b);
+int		case_one_b(t_stack *b, t_stack *a, int nbr);
+int		case_two_b(t_stack *b, t_stack *a, int nbr);
 
-void		do_pa(t_stack **stack_a, t_stack **stack_b);
-void		do_pb(t_stack **stack_a, t_stack **stack_b);
-void		do_sa(t_stack **stack_a);
-void		do_sb(t_stack **stack_b);
-void		do_ss(t_stack **stack_a, t_stack **stack_b);
-void		do_ra(t_stack **stack_a);
-void		do_rb(t_stack **stack_b);
-void		do_rr(t_stack **stack_a, t_stack **stack_b);
-void		do_rrr(t_stack **stack_a, t_stack **stack_b);
-void		do_rra(t_stack **stack_a);
-void		do_rrb(t_stack **stack_b);
+// applying a chosen method
+int		do_case_one_b(t_stack **b, t_stack **a, int nbr);
+int		do_case_two_b(t_stack **b, t_stack **a, int nbr);
 
-/* Stack Functions */
+// helper functions during sorting
+t_stack	*ft_lstlast(t_stack *lst);
+int		ft_lstsize(t_stack *lst);
+int		min_nbr(t_stack *a);
+int		max_nbr(t_stack *a);
+int		find_place_b(t_stack *stack_b, int nbr_push);
+int		find_place_a(t_stack *stack_a, int nbr_push);
+int		cur_place(t_stack *stack, int nbr);
 
-t_stack		*get_stack_bottom(t_stack *stack);
-t_stack		*get_stack_before_bottom(t_stack *stack);
-t_stack		*stack_new(int value);
-void		stack_add_bottom(t_stack **stack, t_stack *new);
-int			get_stack_size(t_stack	*stack);
-
-/* Utils */
-
-void		free_stack(t_stack **stack);
-long int	ft_atoi(const char *str);
-void		ft_putstr(char *str);
-int			nb_abs(int nb);
-
-/* Error */
-
-void		exit_error(t_stack **stack_a, t_stack **stack_b);
-
-/* Input Check */
-
-int			is_correct_input(char **av);
-int			is_digit(char c);
-int			is_sign(char c);
-int			nbstr_cmp(const char *s1, const char *s2);
+// error functions
+void	error_exit(int err_number);
+void	error_mix_exit(int err_number);
+void	error_dup_exit(int err_number);
+void	error_mall_exit(int err_number);
 
 #endif
